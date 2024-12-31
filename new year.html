@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year!</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+            color: white;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .box-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .box {
+            width: 500px;
+            height: 500px;
+            background: #ff6f61;
+            border: 10px double #ffd700;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            cursor: pointer;
+            position: relative;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .box:after {
+            content: "";
+            width: 30px;
+            height: 100%;
+            background: #fff;
+            position: absolute;
+        }
+
+        .box span {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            background: #fff;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .grid {
+            display: none;
+            margin-top: 20px;
+            grid-template-columns: repeat(3, 200px);
+            grid-gap: 20px;
+        }
+
+        .note {
+            width: 200px;
+            height: 200px;
+            background: #ffd700;
+            border: 5px solid #ff6f61;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .celebration h1 {
+            color: #ffd700;
+            font-size: 5rem;
+            text-align: center;
+        }
+
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .firework {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #fff, transparent);
+            border-radius: 50%;
+            animation: explode 1.5s ease-out forwards;
+        }
+
+        .celebration-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: pop 1s ease-out forwards;
+        }
+
+        .final-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+        }
+
+        .final-message h1 {
+            color: #ffd700;
+            font-size: 3rem;
+            text-align: center;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box-container">
+        <div class="box" id="gift-box">
+            <span></span>
+        </div>
+        <div class="grid" id="notes-grid">
+            <div class="note">Note 1</div>
+            <div class="note">Note 2</div>
+            <div class="note">Note 3</div>
+            <div class="note">Note 4</div>
+            <div class="note">Note 5</div>
+            <div class="note">Note 6</div>
+            <div class="note">Note 7</div>
+            <div class="note">Note 8</div>
+            <div class="note">Note 9</div>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <h1>🎉 Haaaapppppppyyyyyyyyyyy Newwwwwwwwwwwwww Yeaaaaarrrrrrrrrrrrrrrrrrrrrr motiiiiiiiiiiiiiiiiiiiiiiii💕💕💕❤️❤️❤️❤️❤️❤️! 🎉</h1>
+    </div>
+
+    <div class="fireworks" id="fireworks"></div>
+
+    <div class="final-message" id="final-message">
+        <h1>🎉 Happyyy New Yearrrr to Uncle Ji and Aunty Ji (Pranam Uncle Ji and Aunty Ji 😊😊)</h1>
+        <h1>🎉 Happyyy New Year to Bittoo alsooo (Thoda Kam Mar Khane Wali Harkatein Krr🤣🤣)! (kya mtlb meri abhi tk hain (ask ur sister😁😁))</h1>
+    </div>
+
+    <script>
+        const giftBox = document.getElementById('gift-box');
+        const notesGrid = document.getElementById('notes-grid');
+        const celebration = document.getElementById('celebration');
+        const fireworks = document.getElementById('fireworks');
+        const finalMessage = document.getElementById('final-message');
+
+        let notesOpened = 0;
+
+        giftBox.addEventListener('click', () => {
+            giftBox.style.display = 'none';
+            celebration.style.display = 'flex';
+            createFireworks();
+            setTimeout(() => {
+                celebration.style.display = 'none';
+                notesGrid.style.display = 'grid';
+            }, 3000); // Hide celebration after 3 seconds
+        });
+
+        function createFireworks() {
+            for (let i = 0; i < 150; i++) {  // Increased the number of fireworks
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = `${Math.random() * 100}%`;
+                firework.style.top = `${Math.random() * 100}%`;
+                firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                fireworks.appendChild(firework);
+                setTimeout(() => firework.remove(), 1500);
+            }
+        }
+
+        const notes = document.querySelectorAll('.note');
+        const messages = [
+            "motiiiiiiiiiiiiii!!!!! happyy neww yearrr... i love youu yrr🥹",
+            "i am eager to enter this year with youuu bhoomikaa💕💕",
+            "please forgive me for the last year's mistake motii",
+            "you are really amazing, beautiful, soft hearted, and has a soooooo soothing smile which reaches to my heart in an instant, please continue to be my same bhoomu this year too😁❤️",
+            "Ik you are sad, mee too! but I am sorry yrr... maf krdooo... 🥺🥲",
+            "kya mtlb jo sparsh ke sath hote hue suna meet pr usse meri fat gyi🤐🫨",
+            "however you never stop caring and mee too somewhere lets continue to be more perfect💕💕💕❤️",
+            "see I cant live without you being sad at me soo pleasseeee forgive your motaaa and hug him when u see him😁😁🤐...",
+            "last but the most important... ik this year Is going to be the most hardest year of our lives... maybe It is going to take us away... but always remember this bhoomika... this om... he will always wait for you like the same... he will never stop loving youuuuu... you are the most perfect for him so pleaseeee try in future that you are the one who is gonna slap him when he does mistake which hurts you irl... i loveee youuu motiiiiiiiiiiiiiiii💕🥹❤️❤️❤️❤️❤️(emotional pro max)"
+        ];
+
+        notes.forEach((note, index) => {
+            note.addEventListener('click', () => {
+                alert(messages[index]);
+                // Show celebration emojis after opening note box
+                showCelebrationEmojis();
+                createFireworks();
+                notesOpened++;
+                if (notesOpened === notes.length) {
+                    // Show the final message after all notes are opened
+                    setTimeout(() => {
+                        finalMessage.style.display = 'flex';
+                    }, 500); // Delay to show the final message after a short wait
+                }
+            });
+        });
+
+        function showCelebrationEmojis() {
+            const emojis = ['🎉', '🎆', '💥', '🥳', '🎊'];
+            for (let i = 0; i < 20; i++) {
+                const emoji = document.createElement('div');
+                emoji.classList.add('celebration-emoji');
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = `${Math.random() * 100}%`;
+                emoji.style.top = `${Math.random() * 100}%`;
+                document.body.appendChild(emoji);
+                setTimeout(() => emoji.remove(), 1000);  // Remove the emoji after 1 second
+            }
+        }
+
+        // Close the final message when the user clicks anywhere on the screen
+        document.body.addEventListener('click', () => {
+            if (finalMessage.style.display === 'flex') {
+                finalMessage.style.display = 'none';
+                notesOpened = 0;  // Reset so the process can repeat
+                notesGrid.style.display = 'none';
+                giftBox.style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+</html>
